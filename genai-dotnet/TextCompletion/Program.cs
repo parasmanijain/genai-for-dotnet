@@ -16,31 +16,31 @@ var options = new OpenAIClientOptions()
 
 // create a chat client
 IChatClient client =
-    new OpenAIClient(credential, options).GetChatClient("openai/gpt-5-mini").AsIChatClient();
+    new OpenAIClient(credential, options).GetChatClient("openai/gpt-4o-mini").AsIChatClient();
 
 #region Basic Completion
 
 //// send prompt and get response
-//string prompt = "What is AI ? explain max 20 word";
-//Console.WriteLine($"user >>> {prompt}");
+// string prompt = "What is AI ? explain max 20 word";
+// Console.WriteLine($"user >>> {prompt}");
 
-//ChatResponse response = await client.GetResponseAsync(prompt);
+// ChatResponse response = await client.GetResponseAsync(prompt);
 
-//Console.WriteLine($"assistant >>> {response}");
-//Console.WriteLine($"Tokens used: in={response.Usage?.InputTokenCount}, out={response.Usage?.OutputTokenCount}");
+// Console.WriteLine($"assistant >>> {response}");
+// Console.WriteLine($"Tokens used: in={response.Usage?.InputTokenCount}, out={response.Usage?.OutputTokenCount}");
 
 #endregion
 
 #region Streaming
 
-//string prompt = "What is AI ? explain max 200 word";
-//Console.WriteLine($"user >>> {prompt}");
+// string prompt = "What is AI ? explain max 200 word";
+// Console.WriteLine($"user >>> {prompt}");
 
-//var responseStream = client.GetStreamingResponseAsync(prompt);
-//await foreach (var message in responseStream)
-//{
+// var responseStream = client.GetStreamingResponseAsync(prompt);
+// await foreach (var message in responseStream)
+// {
 //    Console.Write(message.Text);
-//}
+// }
 
 #endregion
 
@@ -164,42 +164,42 @@ IChatClient client =
 #region ChatApp
 
 // Start the conversation with context for the AI model
-List<ChatMessage> chatHistory = new()
-    {
-        new ChatMessage(ChatRole.System, """
-            You are a friendly hiking enthusiast who helps people discover fun hikes in their area.
-            You introduce yourself when first saying hello.
-            When helping people out, you always ask them for this information
-            to inform the hiking recommendation you provide:
+// List<ChatMessage> chatHistory = new()
+//     {
+//         new ChatMessage(ChatRole.System, """
+//             You are a friendly hiking enthusiast who helps people discover fun hikes in their area.
+//             You introduce yourself when first saying hello.
+//             When helping people out, you always ask them for this information
+//             to inform the hiking recommendation you provide:
 
-            1. The location where they would like to hike
-            2. What hiking intensity they are looking for
+//             1. The location where they would like to hike
+//             2. What hiking intensity they are looking for
 
-            You will then provide three suggestions for nearby hikes that vary in length
-            after you get that information. You will also share an interesting fact about
-            the local nature on the hikes when making a recommendation. At the end of your
-            response, ask if there is anything else you can help with.
-        """)
-    };
+//             You will then provide three suggestions for nearby hikes that vary in length
+//             after you get that information. You will also share an interesting fact about
+//             the local nature on the hikes when making a recommendation. At the end of your
+//             response, ask if there is anything else you can help with.
+//         """)
+//     };
 
-while (true)
-{
-    // Get user prompt and add to chat history
-    Console.WriteLine("Your prompt:");
-    var userPrompt = Console.ReadLine();
-    chatHistory.Add(new ChatMessage(ChatRole.User, userPrompt));
+// while (true)
+// {
+//     // Get user prompt and add to chat history
+//     Console.WriteLine("Your prompt:");
+//     var userPrompt = Console.ReadLine();
+//     chatHistory.Add(new ChatMessage(ChatRole.User, userPrompt));
 
-    // Stream the AI response and add to chat history
-    Console.WriteLine("AI Response:");
-    var response = "";
-    await foreach (var item in
-        client.GetStreamingResponseAsync(chatHistory))
-    {
-        Console.Write(item.Text);
-        response += item.Text;
-    }
-    chatHistory.Add(new ChatMessage(ChatRole.Assistant, response));
-    Console.WriteLine();
-}
+//     // Stream the AI response and add to chat history
+//     Console.WriteLine("AI Response:");
+//     var response = "";
+//     await foreach (var item in
+//         client.GetStreamingResponseAsync(chatHistory))
+//     {
+//         Console.Write(item.Text);
+//         response += item.Text;
+//     }
+//     chatHistory.Add(new ChatMessage(ChatRole.Assistant, response));
+//     Console.WriteLine();
+// }
 
 #endregion
